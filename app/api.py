@@ -80,7 +80,15 @@ class Question(Resource):
         return jsonify({'message': 'Question successfully updated'})
     
     def delete(self, id):
-        pass
+        """This is a method for deleting a question"""
+        try:
+            cur.execute("DELETE FROM questions WHERE ID = %s", (id,))
+            conn.commit()
+        except:
+            return jsonify({'message': 'Cant retrieve the question!'})
+        finally:
+            conn.close()
+        return jsonify({'message': 'Question successfully deleted!'})
 
 api.add_resource(Home, '/api/v1')
 api.add_resource(QuestionList, '/api/v1/questions', endpoint='questions')
