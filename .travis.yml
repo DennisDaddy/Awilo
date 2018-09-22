@@ -1,8 +1,9 @@
 language: python
 
 python:
-  
-  -'3.6'
+  -'2.7'
+  # -'3.4'
+  # -'3.6'
  
   
 
@@ -10,8 +11,8 @@ install:
   - pip install r requirements.txt
 script:
   # - python test_user.py
-  - python tests/test_question.py
-  - python -m pytest --cov-report term-missing --cov=app
+  - python test_question.py
+  # - python -m pytest --cov-report term-missing --cov=app
 after_sucess:
   - "coveralls"
 cache: pip
