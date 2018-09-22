@@ -52,8 +52,25 @@ class QuestionList(Resource):
         conn.commit()
         return jsonify({'message': 'Question successfully created!'})
 
+class Question(Resource):
+    """This is a class for questions with IDs"""
+    
+    def get(self, id):
+        """This is a method for getting a question using GET request"""
+        cur.execute("SELECT * FROM questions WHERE ID= %s", (id,))
+        result = cur.fetchone()
+        if result is None:
+            return jsonify({'massage': 'Question cannot be found!'})
+        return jsonify(result)
+    
+    def put(self, id):
+        pass
+    
+    def delete(self, id):
+        pass
+
 api.add_resource(Home, '/api/v1')
 api.add_resource(QuestionList, '/api/v1/questions', endpoint='questions')
-# api.add_resource(Question, '/api/v1/questions/<int:id>', endpoint='question')
+api.add_resource(Question, '/api/v1/questions/<int:id>', endpoint='question')
 if __name__ == '__main__':
     app.run(debug=True)
