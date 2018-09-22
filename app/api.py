@@ -15,6 +15,7 @@ class Home(Resource):
 class QuestionList(Resource):
     """This is a class for questions without IDs"""
     def get(self):
+        """This is a method for getting a list of questions using GET request"""
         my_list = []
         try:
             cur.execute("SELECT * FROM questions")
