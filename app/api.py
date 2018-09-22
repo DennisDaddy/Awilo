@@ -31,7 +31,26 @@ class QuestionList(Resource):
         except:
             return jsonify({"message": "cannot retrieve questions"})
         return jsonify({"rows": my_list})
+    
+    def post(self):
+        """This a method for creating a question using POST request"""
+        title = request.get_json()['title']
+        content = request.get_json()['content']
+
+        if len(title) == 0:
+            return jsonify({'message': 'Fill in the title'})
+        if len(content) == 0:
+            return jsonify({'message': 'Fill in the content'})
+        if len(title) > 50:
+            return jsonify({'message': 'Title cannot be greater than 50 characters'})
+        if len(content) == 0:
+            return jsonify({'message': "Content cannot be blank"})
+        if len(content) > 100:
+            return jsonify({'message': 'Content cannot be greater than 100 characters'})
         
+        cur.execute("INSERT INTO questions (title, content) VALUES('"+title+"','"+content+"');")
+        conn.commit()
+        return jsonify({'message': 'Question successfully created!'})
 
 api.add_resource(Home, '/api/v1')
 api.add_resource(QuestionList, '/api/v1/questions', endpoint='questions')
